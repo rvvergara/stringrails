@@ -1,4 +1,4 @@
-class QuestionAnswer < ApplicationRecord
+class Solution < ApplicationRecord
   validates :question_str, presence: true
 
   before_save :create_answer

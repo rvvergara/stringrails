@@ -1,25 +1,22 @@
 class SolutionsController < ApplicationController
 
   def show
-    question_answer = QuestionAnswer.find_by(question_str: params[:question_str])
-
-    @answer = question_answer.solved_str
+    @solution = Solution.find_by(question_str: params[:question_str])
+    @answer = @solution.solved_str
     @length = @answer.length
   end
 
   def new
+    @solution = Solution.new
   end
 
   def create
-    @question_answer = QuestionAnswer.new(question_params)
+    solution = Solution.new(question_params)
 
-    @answer = @question_answer.solved_str
-
-    @length = @solved_str.length
-
-
-    if @question_answer.save
-      redirect_to :question_answer
+    if solution.save
+      @answer = solution.solved_str
+      @length = @answer.length
+      redirect_to action: "show", question_str: params[:solution][:question_str]
     else
       render "new"
     end
@@ -28,6 +25,6 @@ class SolutionsController < ApplicationController
   private
 
   def question_params
-    params.require.permit(:question_str)
+    params.require(:solution).permit(:question_str)
   end
 end
